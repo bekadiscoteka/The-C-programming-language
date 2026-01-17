@@ -1,2 +1,24 @@
 main.c
 out
+
+# Vim swap files
+*.swp
+*.swo
+*.swn
+*.sw?
+.*.swp
+
+# Vim backup files
+*~
+*.bak
+*.old
+*.orig
+
+# Vim undo files
+*.un~
+*.undo
+
+# Vim session / netrw history
+Session.vim
+Session.vim?
+.netrwhist
