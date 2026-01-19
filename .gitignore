@@ -1,5 +1,6 @@
 main.c
 out
+out.exe
 
 # Vim swap files
 *.swp
