@@ -18,8 +18,10 @@ void main(void) {
 			okLoop = 0;
 		else if (c == EOF)
 			okLoop = 0;
-		else 
+		else {
 			i++;
 			s[i] = c;
+		}
 	}
+	
 }
