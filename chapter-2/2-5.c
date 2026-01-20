@@ -52,14 +52,3 @@ int c_getline(char dest[], int maxsize) {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
