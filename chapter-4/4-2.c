@@ -25,9 +25,11 @@ double c_pow(int n, int p) {
 
 
 double c_atof(char a[]) {
-    int i, aexp, e, n, sign;
+    int i, e, sign;
+    double n=0;
     sign = 1;
-    e = aexp = n = i = 0;
+    i = 0;
+    e = 10;
     for (; a[i] == ' '; ++i)
         ;
 
@@ -37,33 +39,26 @@ double c_atof(char a[]) {
     }
 
     for (; isdigit(a[i]); ++i) 
-        n = n*10 + a[i] - '0';
+        n = n*10 + (a[i] - '0');
     
     if (a[i] == '.') 
-        for (++i; isdigit(a[i]); ++i, --e)
-            n = n*10 + a[i] - '0';
+        for (++i, e=10; isdigit(a[i]); ++i, e *= 10)
+            n = n + ((double) (a[i] - '0'))/e;
 
    
     if (a[i] == 'e') {
+        int temp_n;
         if (a[++i] == '-') {
-            for (++i; isdigit(a[i]); ++i)
-                aexp = aexp*10 + (a[i] - '0');
-            aexp *= -1;
-            e += aexp;
-                
+            for (++i, temp_n=0; isdigit(a[i]); ++i)
+                temp_n = temp_n*10 + (a[i] - '0'); 
+            n *= c_pow(10, (-1*temp_n));
         }
-
         else {
-            
-            for (; isdigit(a[i]); ++i)
-                aexp = aexp*10 + (a[i] - '0');
-            e += aexp;
-
-
+             for (temp_n=0; isdigit(a[i]); ++i)
+                temp_n = temp_n*10 + (a[i] - '0'); 
+             n *= c_pow(10, (-1*temp_n));
         }
-        
     }
 
-
-    return c_pow(10, e) * (double) (sign * n);
+    return n*sign;
 }
