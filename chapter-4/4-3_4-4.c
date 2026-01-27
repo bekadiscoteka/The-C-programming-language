@@ -2,6 +2,7 @@
 #include <ctype.h>
 #define MAXSIZE 1000
 #define NUMBER 'n'
+#define CMD 'c'
 
 double c_atof(char a[]);
 double c_pow(int n, int p);
@@ -13,6 +14,8 @@ short int top_dup(void);
 short int top_swap(void);
 void clear(void);
 
+short int c_strcmp(char[], char[]);
+
 char getch(void);
 void ungetch(char);
 int getop(char[]);
@@ -22,6 +25,8 @@ int main(void) {
 	int type;
 	double temp;
 	int c;
+	printf("\navailable commands:\n\tCLEAR - clearing stack\n\tTOP - get top number\n\tSWAP - swap top 2 values\n\tDUP - duplicate top value\n"); 
+	printf("\tEXIT - exit program\n");
 		
 	while ((type = getop(s)) != EOF) {
 		switch (type) {
@@ -46,29 +51,42 @@ int main(void) {
 				temp = pop();
 				push( (double) ((int)pop() % (int)temp) );
 				break;
-			case 't':
-				printf("\nTOP: %f\n", top());
+			case CMD:
+				if (c_strcmp(s, "CLEAR")) {
+					clear();
+					printf("\nStack is cleared\n");
+				}					
+				else if (c_strcmp(s, "DUP")) 
+					printf("\nDuplication %s", top_dup() == 0 ? "SUCCESS\n" : "FAIL\n");
+				else if (c_strcmp(s, "SWAP"))
+					printf("\nSwap %s\n", top_swap() == 0 ? "SUCCESS\n" : "FAIL\n");
+				else if (c_strcmp(s, "TOP"))
+					printf("\nTOP: %f\n", top());
+				else if (c_strcmp(s, "EXIT")) {
+					printf("\nGood bye!\n");
+					goto exit;
+				}
+				else 
+					printf("\nUndefined operation\n");
 				break;
-			case 'd':
-				printf("\nDuplication %s", top_dup() == 0 ? "SUCCESS\n" : "FAIL\n");
-				break;
-			case 's':
-				printf("\nSwap %s\n", top_swap() == 0 ? "SUCCESS\n" : "FAIL\n");
-				break;
-			case 'c':
-				clear();
-				printf("\nStack is cleared\n");
 			default: 
 				printf("\nUndefined operation\n");
 				break; // skip
 		}
 	}
-	printf("Final result = %f", pop());
+exit:
+	printf("Final result = %.2f\n", pop());
+	printf("Press any key to close this program");
 	c = getchar();
 	return 0;
 }
 
-
+short int c_strcmp(char s0[], char s1[]) {
+	for (int i=0; s0[i] == s1[i]; ++i) 
+		if (s0[i] == '\0')
+			return 1;
+	return 0;
+}
 
 double c_pow(int n, int p) {
     double result;
@@ -88,6 +106,7 @@ double c_pow(int n, int p) {
 double c_atof(char a[]) {
     int i, e, sign;
     double n=0;
+
     sign = 1;
     i = 0;
     e = 10;
@@ -145,7 +164,7 @@ digit:
 		for (; isdigit(c=getch()); ++i)  // good place to experiment with goto
 			arr[i] = c;
 		if (c == '.') {
-			ungetch(c);
+			arr[i++] = c;
 			for (; isdigit(c=getch()); ++i)
 				arr[i] = c;
 		}
@@ -170,6 +189,16 @@ digit:
 		}
 	}
 
+	else if (isalpha(c) && isupper(c)) {
+		ungetch(c);
+		while (isalpha(c=getch()))
+			arr[i++] = c;
+		ungetch(c);
+		arr[i] = '\0';
+		return CMD;
+	}
+
+	
 
 	arr[i++] = c;
 	arr[i] = '\0';
