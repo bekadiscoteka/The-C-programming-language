@@ -7,9 +7,11 @@
 #define UNKNOWN -2
 #define VAR 'v'
 #define VAR_DEF 'd'
+#define SKIP 's'
 #define ALPHA_NUM 26  // number of letters in english alphabet
 					  //
 void init_vardefs(short);
+int c_getline(int line[], int limit);
 
 double c_atof(char a[], int start);
 double c_pow(int n, int p);
@@ -40,6 +42,7 @@ int main(void) {
 	int type;
 	double temp;
 	int c;
+
 	printf("\navailable commands:\n\tCLEAR - clearing stack\n\tTOP - get top number\n\tSWAP - swap top 2 values\n\tDUP - duplicate top value"); 
 	printf("\n\tSIN - get sinus of top\n\tEXP - get e powered by top value\n\tPOW - power operation of top 2 values");
 	printf("\n\tEXIT - exit program\n");
@@ -118,6 +121,9 @@ int main(void) {
 			case VAR_DEF:
 				setvar(s[0], c_atof(s, 1));
 				break;
+			case SKIP: 
+				break;// just skip
+				
 			default: 
 				printf("\nUndefined operation\n");
 				break; // skip
@@ -224,6 +230,7 @@ void ungets(char s[]) {
 
 int getch(void) {
 	if (singlebuf != 0) {
+		printf("\nsinglebuf = %d", singlebuf);
 		int temp = singlebuf;
 		singlebuf = 0;
 		return temp;
@@ -231,80 +238,88 @@ int getch(void) {
 	return getchar();
 }
 
-void blank_skip(void) {
-	int c;
-	while ((c=getch()) == ' ' || c == '\t' || c == '\n')
-		; // skip
-	ungetch(c);
-}
+
+
+
+
+int line[MAXSIZE];
+int li=0;
 
 int getdigit(char arr[], int i) { // i is a startpoint
 	int c;								  //
-	for (; isdigit(c=getch()); ++i)  // good place to experiment with goto
-		arr[i] = c;
-	if (c == '.') {
+	blank_skip();
+	while (isdigit(c=line[li++]))
 		arr[i++] = c;
-		for (; isdigit(c=getch()); ++i)
-			arr[i] = c;
+
+	for (; isdigit(line[li]); ++li)
+		arr[i++] = line[li];
+
+	if (line[li] == '.') {
+		arr[i++] = '.';
+
+		for (++li; isdigit(line[li]); ++li)
+			arr[i++] = line[li];
 	}
-	ungetch(c);
+
 	arr[i] = '\0';	
 	return i;  // returns index of end of string
+}
+
+void blank_skip(void) {
+	for (; line[li] == ' ' || line[li] == '\t' || line[li] == '\n'; ++li)
+		;
 }
 
 int getop(char arr[]) {
 	int n=0, i=0, c;
 	blank_skip();
-	if (isdigit(c=getch())) {
+	if (line[li] == '\0') {
+		c_getline(line, MAXSIZE);
+		li = 0;
+		return SKIP;
+	}
+	else if (isdigit(line[li])) {
 		digit:
-			ungetch(c);
 			getdigit(arr, i);
 			return NUMBER;
 	}
 
-	else if (c == EOF) {
+	else if (line[li] == EOF) {
 		return EOF;
 	}
 
-	else if (c == '-') {
-		if (isdigit(c=getch())) {
+	else if (line[li] == '-') {
+		if (isdigit(line[li+1])) {
+			li++;
 			arr[i++] = '-';
 			goto digit;
 		}
-		else {
-			ungetch(c);
-			c='-';
-		}
 	}
 
-	else if (isalpha(c)) {
-		if (isupper(c)) {
-			ungetch(c);
-			while (isalpha(c=getch()))
-				arr[i++] = c;
-			ungetch(c);
+	if (isalpha(line[li])) {
+		if (isupper(line[li])) {
+			for (; isalpha(line[li]) && isupper(line[li]); ++li)
+				arr[i++] = line[li];
 			arr[i] = '\0';
 			return CMD;
 		}
 		else {
-			char var=c;
-			while ((c=getch()) == ' ' || c == '\t') 
+			char var=line[li];
+			for (++li; line[li] == ' ' || line[li] == '\t'; ++li)
 				;
-			if (c == '=') {
-				blank_skip();
-				if (isdigit(c=getch())) {
-					ungetch(c);
+
+			if (line[li] == '=') {
+				for (++li; line[li] == ' ' || line[li] == '\t'; ++li)
+					;
+
+				if (isdigit(line[li])) {
 					arr[i++] = var;
 					getdigit(arr, i);					
 					return VAR_DEF;	
 				}
-				else {
-					ungetch(c);
-					return UNKNOWN;
-				}
+				return UNKNOWN;
 			}	
 			else {
-				ungetch(c);
 				arr[0] = var;
 				arr[1] = '\0';
 				return VAR;	
@@ -314,9 +329,17 @@ int getop(char arr[]) {
 
 	
 
-	arr[i++] = c;
+	c = arr[i++] = line[li++];
 	arr[i] = '\0';
 	return c;
+}
+
+int c_getline(int line[], int lim) {
+	int i, c;
+	for (i=0; (c=getchar()) != '\n' && i < lim-1; ++i) 
+		line[i] = c;	
+	line[i] = '\0';
+	return i; 
 }
 
 
