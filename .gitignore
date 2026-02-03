@@ -24,3 +24,4 @@ out.exe
 Session.vim
 Session.vim?
 .netrwhist
+.vimtmp
