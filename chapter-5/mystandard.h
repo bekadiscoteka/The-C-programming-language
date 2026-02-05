@@ -1,8 +1,10 @@
 #ifndef MYSTD
 #define MYSTD
 
-char *getline(void);
-int atoi(char arr[]);
-char *itoa(int i);
+char *cgetline(char *, size_t);
+int catoi(char *);
+char *citoa(int);
+char *creverse(char *);
+ptrdiff_t cstrindex(char *);
 
 #endif
