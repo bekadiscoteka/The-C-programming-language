@@ -1,18 +1,21 @@
 #include "mystandard.h"
-#include <stddef.h>
+#include <stdio.h>
+#include <ctype.h>
 
-#define swap(type, a, b) \
+#define swap(type, a, b) { \
 	type temp = a; \
 	a = b; \
-	b = temp;
+	b = temp; \
+}
 
 char *cgetline(char arr[], size_t maxsize) {
 
-	for (int c, *p=arr; (c=getchar()) != '\n'; ++p) {
+	char *p = arr;
+	for (int c; (c=getchar()) != '\n'; ++p) {
 		if (c == EOF) 
 			break;
 		*p = c;
-		if (p-arr < maxsize-1) {
+		if (p-arr >= maxsize-1) {
 			*(++p) = '\0';
 			return arr;
 		}
@@ -23,31 +26,53 @@ char *cgetline(char arr[], size_t maxsize) {
 }
 
 int catoi(char *a) {
-	int n;
+	int n, sign=1;
+	while (*a == ' ' || *a == '\t')
+		a++;
+
+	if (*a == '-') { 
+		sign = -1;
+		a++;
+	}
+
 	for (n=0; isdigit(*a); a++) 
 		n = 10 * n + (*a - '0'); 
 
-	return n;
+	return n*sign;
 }
 
-char *citoa(char *arr; int i) {
-	char *a = arr;	
-	for (*a++ = '\0'; i / 10; ++a, i /= 10) 
-		*a = (i % 10) + '0';
+char *citoa(char *arr, int i) {
+	char *a = arr;
+	int sign = 1;
+
+	if (i < 0) {
+		sign = -1;
+		i *= -1;
+	}
+
+	do {
+		*a++ = i%10 + '0';
+		i /= 10;
+	}
+	while (i != 0); 
+
+	if (sign < 0)
+		*a++ = '-';
+
 	*a = '\0';
-	
-	return reverse(arr);
+
+	return creverse(arr);
 }
 
 
 char *creverse(char *a) {
 	char *ret = a, *begin = a;
 
-	while (*a)
+	while (*a != '\0')
 		a++;
 
-	for (; begin < a; begin++, --a) 
-		swap(char, *begin, *a);
+	for (--a; begin < a; begin++, --a) 
+		swap(char, *begin, *a)
 
 	return ret; 
 }	
