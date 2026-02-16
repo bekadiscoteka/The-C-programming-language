@@ -1,6 +1,7 @@
 #include "mystandard.h"
 #include <stdio.h>
 #include <ctype.h>
+// custom version of standard functions
 #define CALLOC_MAXSIZE 10
 #define swap(type, a, b) { \
 	type temp = a; \
