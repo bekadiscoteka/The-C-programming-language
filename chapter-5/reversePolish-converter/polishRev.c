@@ -43,6 +43,36 @@ int s_isempty(void) {
 	return 0;
 }
 
+int temp_isempty(void) {
+	return tempstackp == tempstack;
+}
+
+void s2temp(void) {
+	char c;
+	int parenthc=0;
+	do {
+		if ((c = s_pop()) == ')')
+			parenthc++;
+		if (c == '(')
+			parenthc--;
+		temp_push(c);
+	} while (parenthc > 0);
+}
+
+void temp2s(void) {
+	
+	char c;
+	int parenthc=0;
+
+	do {
+		if ((c = temp_pop()) == '(')
+			parenthc++;
+		if (c == ')')
+			parenthc--;
+		s_push(c);
+	} while (parenthc > 0);	
+
+}
 
 int main(int argc, char *argv[]) {
 	while (--argc > 0) {
@@ -53,41 +83,27 @@ int main(int argc, char *argv[]) {
 				char a, b;
 
 				int parenthc = 0;
-
+				
+				
+				
 				switch (*c) {
 					case '*': 
 					case '+': 
 					case '-': 
 					case '/':
 						
-						do {
-							if ((b = s_pop()) == ')')
-								parenthc++;
-							if (b == '(')
-								parenthc--;
-							temp_push(b);
-						} while (parenthc > 0);
+						temp_push(')');					
+
+						s2temp();
 
 						temp_push(*c);
 
-						do {
-							if ((b = s_pop()) == ')')
-								parenthc++;
-							if (b == '(')
-								parenthc--;
-							temp_push(b);
-						} while (parenthc > 0);
+						s2temp();
 
 						temp_push('(');	
-							
-						do {
-							if ((a = temp_pop()) == '(')
-								parenthc++;
-							if (a == ')')
-								parenthc--;
-							s_push(a);
-						} while (parenthc > 0);	
-
+						
+						temp2s();	
+						
 						break;
 					default:
 						printf("\nundefined operation: ");
@@ -98,9 +114,12 @@ int main(int argc, char *argv[]) {
 			}
 		}
 	}		
-	while (!s_isempty()) {
-		putchar(s_pop());
-		putchar('\n');
+	s2temp();
+
+	while (!temp_isempty()) {
+		putchar(temp_pop());
+		putchar(' ');
 	}
+
 	getchar();
 }

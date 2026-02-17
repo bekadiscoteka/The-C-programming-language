@@ -1,8 +1,7 @@
 main.c
 out
-out.exe
 *.exe
-
+*.o
 # Vim swap files
 *.swp
 *.swo
