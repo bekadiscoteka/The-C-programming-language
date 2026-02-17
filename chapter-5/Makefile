@@ -1,5 +1,5 @@
 CC = gcc
-OBJLIST = main.o mystandard.o date.o mystring.o
+OBJLIST = main.o mystd.o date.o mystring.o
 OUT = main.exe
 FLAGS = -DPTR_VERSION 
 
@@ -14,7 +14,7 @@ mainonly: # compile only main
 	$(CC) $(OBJLIST) -o $(OUT) 
 
 run:
-	./$(OUT)
+	./$(OUT) 
 
 clean: 
 	del $(OBJLIST)

@@ -1,8 +1,9 @@
-#include "mystandard.h"
+#include "mystd.h"
 #include <stdio.h>
 #include <ctype.h>
 // custom version of standard functions
-#define CALLOC_MAXSIZE 10
+#define CALLOC_MAXSIZE 1000
+#define STACK_MAXSIZE 1000
 #define swap(type, a, b) { \
 	type temp = a; \
 	a = b; \
@@ -20,7 +21,7 @@ char *cust_alloc(size_t bytes) {
 		return ret;
 	}
 	else {
-		printf("\nerror on allocation\n");	
+		printf("\nERROR on allocation: overflow\n");	
 		return NULL;
 	}
 }
@@ -208,3 +209,32 @@ void string_qsort(char *arr[], size_t left, size_t right) {
 		string_qsort(arr, left, storeIndex-1), string_qsort(arr, storeIndex, right);
 	}
 }
+
+
+
+static char stack[STACK_MAXSIZE];
+static char *stackp = stack;
+
+void push(char pushval) {
+	if (stackp - stack <= STACK_MAXSIZE) 
+		*stackp++ = pushval;
+	else 
+		printf("\ncharstack overflow\n");
+}
+
+char pop(void) {
+	if (stackp == stack) {
+		printf("\ncharstack is empty\n");
+		return '\0';
+	}
+	else 
+		return *--stackp;
+}
+
+int is_empty(void) {
+	return stackp == stack;
+}
+
+
+
+
