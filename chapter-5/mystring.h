@@ -1,7 +1,5 @@
 #include <stddef.h>
 
-#include "mystring.c"
-
 #ifndef MYSTR
 #define MYSTR
 

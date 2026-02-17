@@ -1,6 +1,7 @@
 CC = gcc
-OBJLIST = main.o mystd.o date.o mystring.o
-OUT = main.exe
+MAINOBJ = entab.o
+OBJLIST = $(MAINOBJ) mystd.o date.o mystring.o
+OUT = entab.exe
 FLAGS = -DPTR_VERSION 
 
 $(OUT): $(OBJLIST)

@@ -1,4 +1,6 @@
 #include <stddef.h>
+#include "mystring.h"
+
 char *c_strncpy(char *s, char *t, size_t n) {
 	char *ret = s;
 	while (n-- > 0)	{
@@ -59,4 +61,14 @@ int c_strend(char *s, char *t) {
 
 	return 0;
 }
+
+char *c_strcpy(char *d, char *s) {
+	char *ret = d;
+	while ((*d++ = *s++) != '\0')
+		;
+
+	return ret;
+}
+
+
 

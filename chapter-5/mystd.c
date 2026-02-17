@@ -121,7 +121,7 @@ void cwritelines(char *line[], size_t nlines) {
 
 
 int catoi(char *a) {
-	int n, sign=1;
+	int n=0, sign=1;
 	while (*a == ' ' || *a == '\t')
 		a++;
 
