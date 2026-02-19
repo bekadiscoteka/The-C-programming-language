@@ -13,6 +13,14 @@ char *c_strncpy(char *s, char *t, size_t n) {
 	return ret;
 }
 
+size_t c_strlen(char s[]) {
+	char *sp = s;	
+	while (*sp != '\0') 
+		sp++;
+	
+	return sp - s;	
+}
+
 char *c_strncat(char *s, char *t, size_t n) {
 	char *ret = s;
 	while (*s != '\0')
