@@ -14,7 +14,7 @@ static char calloc_mem[CALLOC_MAXSIZE];
 static char *calloc_ptr = calloc_mem;
 static char* end = calloc_mem + CALLOC_MAXSIZE;
 
-char *cust_alloc(size_t bytes) {
+void *cust_alloc(size_t bytes) {
 	if ((calloc_ptr + bytes) < end) {
 		register char* ret = calloc_ptr;
 		calloc_ptr += bytes;
@@ -26,18 +26,68 @@ char *cust_alloc(size_t bytes) {
 	}
 }
 
-void crelease(char *ptr) {
-	if (calloc_mem <= ptr && ptr < end) 
+void crelease(void *ptr) {
+	if ((void *) calloc_mem <= ptr && ptr < (void *) end) 
 		calloc_ptr = ptr;
 }
 
 int cstrcmp(char str1[], char str2[]) {
 	char a, b;
+
 	while ((a = *str1++) == (b = *str2++)) 
 		if (a == '\0' || b == '\0')
 			return 0;
-			
+
 	return a - b;
+}
+
+
+
+int cstrcmp_f(char str1[], char str2[]) {
+	char a, b;
+
+	while (tolower(a = *str1++) == tolower(b = *str2++)) 
+		if (a == '\0' || b == '\0')
+			return 0;
+
+	return a - b;
+}
+
+
+int cstrcmp_desc(char str1[], char str2[]) {
+	char a, b;
+
+	while ((a = *str1++) == (b = *str2++)) 
+		if (a == '\0' || b == '\0')
+			return 0;
+
+	return b - a;
+}
+
+int cstrcmp_desc_f(char str1[], char str2[]) {
+	char a, b;
+
+	while (tolower(a = *str1++) == tolower(b = *str2++)) 
+		if (a == '\0' || b == '\0')
+			return 0;
+
+	return b - a;
+}
+
+
+
+int cintcmp(char str1[], char str2[]) { 
+	int a = catoi(str1);
+	int b = catoi(str2);
+
+	return a - b; 
+}
+
+int cintcmp_desc(char str1[], char str2[]) { 
+	int a = catoi(str1);
+	int b = catoi(str2);
+
+	return b - a; 
 }
 
 
@@ -182,35 +232,78 @@ ptrdiff_t cstrindex(char *a, char t) {
 
 }
 
-void cqsort(int arr[], size_t left, size_t right) {
+void cqsort(char arr[], size_t left, size_t right, 
+		int (*comp) (char, char), int desc) {
 	if (left < right) {
 		size_t storeIndex = left+1;	
 		for (int i=left; i >= left && i < right; ++i) {
-			if (arr[i] < arr[left]) {
-				swap(int, arr[storeIndex], arr[i])
-				storeIndex++;
-			}	
+			if (desc > 0) {
+				if ((*comp)(arr[i], arr[left]) > 0) {
+					swap(char, arr[storeIndex], arr[i])
+					storeIndex++;
+				}	
+			}
+			else { 
+				if ((*comp)(arr[i], arr[left]) < 0) {
+					swap(char, arr[storeIndex], arr[i])
+					storeIndex++;
+				}
+			}
 		}	
-		swap(int, arr[storeIndex-1], arr[left])
-		cqsort(arr, left, storeIndex-1), cqsort(arr, storeIndex, right);
+		swap(char, arr[storeIndex-1], arr[left])
+		cqsort(arr, left, storeIndex-1, *comp, desc); 
+		cqsort(arr, storeIndex, right, *comp, desc);
 	}
 }
 
-void string_qsort(char *arr[], size_t left, size_t right) {
+char *string_filter(char *s, int (*filter) (char)) {
+	char *ns = cust_alloc(1);
+	char *ret = ns;
+	char a;
+	while ((a = *s++) != '\0') {
+		if ((*filter)(a)) {
+			*ns = a;
+			ns = cust_alloc(1);
+		}
+	} 
+
+	*ns = '\0';
+	return ret; 
+}
+
+void string_qsort( char *arr[], size_t left, size_t right, 
+		int (*comp)(char*, char*) ) {
 	if (left < right) {
 		size_t storeIndex = left+1;	
 		for (size_t i=left+1; i >= left && i < right; ++i) {
-			if (cstrcmp(arr[left], arr[i]) < 0) {
+			if ((*comp)(arr[left], arr[i]) > 0) { 
 				swap(char*, arr[storeIndex], arr[i])
 				storeIndex++;
 			}	
 		}	
 		swap(char*, arr[storeIndex-1], arr[left])
-		string_qsort(arr, left, storeIndex-1), string_qsort(arr, storeIndex, right);
+		string_qsort(arr, left, storeIndex-1, comp), string_qsort(arr, storeIndex, right, comp);
 	}
 }
 
-
+void string_qsort_f( char *arr[], size_t left, size_t right, // with filter for cmp
+		int (*comp)(char*, char*) , int (*filter) (char)) {
+	if (left < right) {
+		size_t storeIndex = left+1;	
+		for (size_t i=left+1; i >= left && i < right; ++i) {
+			char *a = string_filter(arr[left], filter);
+			char *b = string_filter(arr[i], filter);
+			if (((*comp)(a, b)) > 0) { 
+				swap(char*, arr[storeIndex], arr[i])
+				storeIndex++;
+			}	
+			crelease(a);
+		}	
+		swap(char*, arr[storeIndex-1], arr[left])
+		string_qsort_f(arr, left, storeIndex-1, comp, filter);
+		string_qsort_f(arr, storeIndex, right, comp, filter);
+	}
+}
 
 static char stack[STACK_MAXSIZE];
 static char *stackp = stack;

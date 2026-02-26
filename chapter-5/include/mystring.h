@@ -4,6 +4,9 @@
 #define MYSTR
 
 char *c_strncpy(char *s, char *t, size_t n);
+int c_wordc(char *);
+size_t c_maxwlen(char *);
+char **c_strtok(char *);
 char *c_strcpy(char *s, char *t);
 char *c_strncat(char *s, char *t, size_t n);
 char *c_strcat(char *s, char *t);
