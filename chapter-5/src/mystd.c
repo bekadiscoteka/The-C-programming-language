@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <ctype.h>
 // custom version of standard functions
-#define CALLOC_MAXSIZE 1000
+#define CALLOC_MAXSIZE 10000
 #define STACK_MAXSIZE 1000
 #define GETCH_MAXBUF 100
 #define swap(type, a, b) { \

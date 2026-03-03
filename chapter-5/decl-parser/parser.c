@@ -2,11 +2,14 @@
 #include <string.h> 
 #include <ctype.h> 
 #include "mystd.h"
+#include "mystring.h"
 #define MAXTOKEN  100 
 
 int gettoken(void);
 void dcl(void); 
 void dirdcl(void); 
+
+char *keywords[] = {"const", "int", "char", NULL};
 
 int tokentype;           /* type of last token */ 
 char token[MAXTOKEN];    /* last token string */ 
@@ -61,6 +64,41 @@ void dirdcl(void)
 	   } 
 } 
 
+char *strseparate(char s[], char d, int i) {
+	size_t j;
+	char *begin = s;
+
+	for (j=0; s[j] != '\0'; ++j) {
+		if (s[j] == d) {
+			if (--i == 0) {
+				char *end = s + j;
+				
+				char *ret = cust_alloc(strlen(s));
+				c_strncpy(ret, begin, end-begin);
+
+				return ret;
+			}
+			else 
+				begin = s + j+1;
+		}
+			
+	}
+
+	if (i == 1)
+		return begin; 
+	return NULL; 
+}
+
+
+int strcontain(char *s[], char t[]) {
+	while (*s != NULL) {
+		if (strcmp(*s, t) == 0) 
+			return 1;
+		s++;
+	}
+	return 0;
+}
+
 
 
 int gettoken(void)  /* return next token */ 
@@ -74,24 +112,49 @@ int gettoken(void)  /* return next token */
 		   strcpy(token, "()"); 
 		   return tokentype = PARENS; 
 	   } else { 
-		   tokentype = '(';
+		   tokentype = PARENS;
 		   ungetch(c); 
+		   int missp = 0;
 		   char temp[MAXTOKEN];
 		   int i=0;
-		   while ((temp[i++]=c=getch()) != ')') {
-			   if (c == '\n' || i == MAXTOKEN-1) {
-				   printf("too long content of parenth or missing )");
-				   tokentype = '(';
+		   while ((c=getch()) != ')') {
+			   if (c == '\n' ) {
+				   printf("\nmissing )\n");
+				   missp = 1;
 				   break;
 			   }
-
-			   if (c == ',') 
-				   tokentype = PARENS;
+			   temp[i++] = c;
+			   if (i == MAXTOKEN-1) {
+				   printf("\ntoo long content of parenth\n");
+				   break;
+			   }
 		   }
-		  
+		   temp[i] = '\0';
+		   printf("\ntemp: %s\n", temp);
+		   char *t;
+			for (int i=1; (t=strseparate(temp, ',', i)) != NULL; ++i) {
+				char **w = c_strtok(t);	
+				printf("\nt=%s", t);
+				for (int j=0; j < c_wordc(t); ++j) {
+					printf("\nw[j]=%s\n", w[j]);
+					if (!strcontain(keywords, w[j])) {
+						ungetch(')');
+						tokentype = '(';
+						goto h;
+					}
+				}	
+				crelease(w);
+			}
+			crelease(t);
+
+			h: 
+
+			if (missp > 0) 
+				ungetch('\n');
+
 		   if (tokentype == PARENS) {
 			   temp[i] = '\0';
-			   sprintf(token, "(%s", temp);
+			   sprintf(token, "(%s)", temp);
 		   } 
 		   else {
 			   while (--i >= 0)
