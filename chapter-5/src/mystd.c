@@ -4,6 +4,7 @@
 // custom version of standard functions
 #define CALLOC_MAXSIZE 1000
 #define STACK_MAXSIZE 1000
+#define GETCH_MAXBUF 100
 #define swap(type, a, b) { \
 	type temp = a; \
 	a = b; \
@@ -287,7 +288,7 @@ void string_qsort( char *arr[], size_t left, size_t right,
 }
 
 void string_qsort_f( char *arr[], size_t left, size_t right, // with filter for cmp
-		int (*comp)(char*, char*) , int (*filter) (char)) {
+		int (*comp)(char*, char*), int (*filter) (char)) {
 	if (left < right) {
 		size_t storeIndex = left+1;	
 		for (size_t i=left+1; i >= left && i < right; ++i) {
@@ -328,6 +329,22 @@ int is_empty(void) {
 	return stackp == stack;
 }
 
+char getch_buf[GETCH_MAXBUF];
+size_t getch_bufi;
+
+char getch(void) {
+	if (getch_bufi > 0) 
+		return getch_buf[--getch_bufi];	
+	else 
+		return getchar();
+}
+
+void ungetch(char c) {
+	if (getch_bufi < GETCH_MAXBUF) 
+		getch_buf[getch_bufi++] = c;
+	else 
+		printf("\ngetch buffer overflow\n");
+}
 
 
 

@@ -90,8 +90,10 @@ int field_cintcmp(char str1[], char str2[]) {
 	do {
 		if ((nstr1 = getfield(str1, i)) == NULL)
 			return -1; 
+		printf("\nnstr1\n: %s", nstr1);
 		if ((nstr2 = getfield(str2, i)) == NULL)
 			return 1;		
+		printf("nstr2: %s\n", nstr2);
 		++i;
 	}
 	while ( (ret = cintcmp(nstr1, nstr2)) == 0 && i < cli);
@@ -204,38 +206,8 @@ int main(int argc, char *argv[]) {
 		}
 	}
 
-	if (n) 
-		if (r) 
-			cmp_ptr = cintcmp_desc;
-		else 
-			cmp_ptr = cintcmp;
-
-	else { 
-		if (r) {
-			if (f)
-				cmp_ptr = cstrcmp_desc_f;
-			else 
-				cmp_ptr = cstrcmp_desc;
-		}
-		else {
-			if (f) 
-				cmp_ptr = cstrcmp_f;
-			else 
-				cmp_ptr = cstrcmp;
-		}
-	}
 
 
-	if (d & f) 
-		filter_ptr = df_filter; 
-	else if (d) 
-		filter_ptr = d_filter; 
-	if (f) { 
-		if (r) 
-			cmp_ptr = cstrcmp_desc_f;
-		else 
-			cmp_ptr = cstrcmp_f;
-	}
 	
 	
 	char *lines[MAXLINE];
@@ -246,13 +218,17 @@ int main(int argc, char *argv[]) {
 		d = cstrindex(cflags[0], 'd');
 		n = cstrindex(cflags[0], 'n');
 		
-		int (*cmp) (char, char);
 
-		if (n >= 0) 
-			if (r >= 0) 
+		if (n >= 0) { 
+			if (r >= 0) {
+				printf("\ndesc\n");
 				cmp_ptr = field_cintcmp_desc;
-			else 
+			}
+			else { 
+				printf("\nasc\n");
 				cmp_ptr = field_cintcmp;
+			}
+		}
 
 		else { 
 			if (r >= 0) {
@@ -270,18 +246,35 @@ int main(int argc, char *argv[]) {
 		}
 
 
-		if (d >= 0 & f >= 0) 
-			filter_ptr = df_filter; 
-		else if (d) 
-			filter_ptr = d_filter; 
-		if (f >= 0) { 
-			if (r >= 0) 
-				cmp_ptr = field_cstrcmp_desc_f;
+	}	
+	else {
+		if (n) 
+			if (r) 
+				cmp_ptr = cintcmp_desc;
 			else 
-				cmp_ptr = field_cstrcmp_f;
+				cmp_ptr = cintcmp;
+
+		else { 
+			if (r) {
+				if (f)
+					cmp_ptr = cstrcmp_desc_f;
+				else 
+					cmp_ptr = cstrcmp_desc;
+			}
+			else {
+				if (f) 
+					cmp_ptr = cstrcmp_f;
+				else 
+					cmp_ptr = cstrcmp;
+			}
 		}
 
-	}	
+	}
+
+	if (d & f) 
+		filter_ptr = df_filter; 
+	else if (d) 
+		filter_ptr = d_filter; 
 
 	while ((lines_n = creadlines_alloc(lines, MAXLINE)) > 0) {
 		string_qsort_f(lines, 0, lines_n, cmp_ptr, filter_ptr);

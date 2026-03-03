@@ -25,6 +25,8 @@ void cwritelines(char*[], size_t);
 void push(char);
 char pop(void);
 int is_empty(void);
+char getch(void);
+void ungetch(char);
 
 
 
