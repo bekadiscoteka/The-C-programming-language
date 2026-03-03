@@ -47,8 +47,8 @@ void dirdcl(void)
 	   printf("error: expected name or (dcl)\n"); 
 	   ungetch(tokentype);
 	   tokentype = NAME;
-	   strcpy(token, "<unnamed>");
-	   strcpy(name, token); 
+	   //strcpy(token, "<unnamed>");
+	   strcpy(name, "<unnamed>"); 
    }
    
    while ((type=gettoken()) == PARENS || type == BRACKETS) 
@@ -130,13 +130,10 @@ int gettoken(void)  /* return next token */
 			   }
 		   }
 		   temp[i] = '\0';
-		   printf("\ntemp: %s\n", temp);
 		   char *t;
 			for (int i=1; (t=strseparate(temp, ',', i)) != NULL; ++i) {
 				char **w = c_strtok(t);	
-				printf("\nt=%s", t);
 				for (int j=0; j < c_wordc(t); ++j) {
-					printf("\nw[j]=%s\n", w[j]);
 					if (!strcontain(keywords, w[j])) {
 						ungetch(')');
 						tokentype = '(';
