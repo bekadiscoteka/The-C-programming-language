@@ -18,6 +18,14 @@ char *c_strncpy(char *s, char *t, size_t n) {
 	return ret;
 }
 
+int strcontain(char *list[], char *s) {
+	char *temp;
+	while ((temp = *list++) != NULL)
+		if (cstrcmp(temp, s) == 0)
+			return 1;
+	return 0;
+}
+
 int c_wordc(char *s) {
 	char state = UNDEF;
 	int n=0;

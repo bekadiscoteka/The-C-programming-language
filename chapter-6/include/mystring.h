@@ -3,6 +3,7 @@
 #ifndef MYSTR
 #define MYSTR
 
+int strcontain(char *list[], char *s);  	// end of list is required to be NULL
 char *c_strncpy(char *s, char *t, size_t n);
 int c_wordc(char *);
 size_t c_maxwlen(char *);

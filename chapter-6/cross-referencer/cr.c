@@ -17,6 +17,16 @@ char *c_strdup(char*);
 int getword(char*, int);
 
 
+char *except_words[] = {
+	"and",
+	"or",
+	"the",
+	"a",
+	"an",
+	NULL
+};
+
+
 struct tNode {
 	char *word;
 	int *lines;
@@ -113,6 +123,8 @@ int main(void) {
 	while (getword(word, MAXWORD) != EOF) {
 		if (word[0] == '\n') 
 			line++;
+		else if (strcontain(except_words, word))
+			continue;
 		else 
 			root = addNode(root, word, line);	
 	}
