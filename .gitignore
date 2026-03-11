@@ -1,4 +1,5 @@
 main.c
+bin/
 out
 *.exe
 *.o
