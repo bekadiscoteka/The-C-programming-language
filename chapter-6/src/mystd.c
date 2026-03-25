@@ -1,6 +1,8 @@
 #include "mystd.h"
+#include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
+#include <string.h>
 // custom version of standard functions
 #define CALLOC_MAXSIZE 10000
 #define STACK_MAXSIZE 1000
@@ -42,6 +44,42 @@ int cstrcmp(char str1[], char str2[]) {
 	return a - b;
 }
 
+char *c_strdup(char *s) {
+	char *ret;
+	if ( strlen(s) > 0 && (ret = (char*) malloc(strlen(s) + 1)) ) {
+		strcpy(ret, s);
+		return ret;
+	}
+
+	return NULL;
+}
+
+
+int getword(char *word, int lim) 
+{ 
+   int c; 
+   char *w = word; 
+
+	while ( isspace(c=getch()) ) 
+		;
+
+   if (c != EOF) 
+	   *w++ = c; 
+
+
+   if (!isalpha(c) && c != '_') { 
+	   *w = '\0'; 
+	   return c; 
+   } 
+
+   for ( ; --lim > 0; w++) 
+	   if ( !isalnum(*w = getch()) && !(*w == '_') ) { 
+		   ungetch(*w); 
+		   break; 
+	   } 
+   *w = '\0'; 
+   return word[0]; 
+}
 
 
 int cstrcmp_f(char str1[], char str2[]) {
@@ -233,29 +271,13 @@ ptrdiff_t cstrindex(char *a, char t) {
 
 }
 
-void cqsort(char arr[], size_t left, size_t right, 
-		int (*comp) (char, char), int desc) {
-	if (left < right) {
-		size_t storeIndex = left+1;	
-		for (int i=left; i >= left && i < right; ++i) {
-			if (desc > 0) {
-				if ((*comp)(arr[i], arr[left]) > 0) {
-					swap(char, arr[storeIndex], arr[i])
-					storeIndex++;
-				}	
-			}
-			else { 
-				if ((*comp)(arr[i], arr[left]) < 0) {
-					swap(char, arr[storeIndex], arr[i])
-					storeIndex++;
-				}
-			}
-		}	
-		swap(char, arr[storeIndex-1], arr[left])
-		cqsort(arr, left, storeIndex-1, *comp, desc); 
-		cqsort(arr, storeIndex, right, *comp, desc);
-	}
+void cswap(void **a, void **b) {
+	void* temp;
+	temp = *a;
+	*a = *b;
+	*b = temp;
 }
+
 
 char *string_filter(char *s, int (*filter) (char)) {
 	char *ns = cust_alloc(1);

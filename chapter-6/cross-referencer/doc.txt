@@ -1,0 +1,45 @@
+
+concept: program that lists all input words with approprate lines where it occurs, except predefined words
+
+
+	tier 1
+TOP:
+requirements: 
+1. user friendly display
+2. uses most efficient data structure
+
+conOps:
+user runs the program and program asks input text. User puts the input and after "EOF", program displays processed output;
+processed output is each word, with sufficient lines where that word occured;
+
+
+struct:
+conops: all necessary information about each word
+
+req:
+- minimalistic/self descriptive names
+- no redundant variables
+- minimum as possible
+
+	||
+	\/  tier 3
+
+char word[]:		int lines[]: 	int linesi;
+conop: contains word	occured lines   index of new to add line	
+
+
+add node(root, word)
+conops: adds the node to the tree, based on the lex
+
+req: 
+- no redundant operation
+- allocates only recessary memory
+
+
+
+
+
+
+
+
+

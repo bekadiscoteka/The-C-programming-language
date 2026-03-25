@@ -3,11 +3,12 @@
 #include <stddef.h>
 
 size_t cgetline(char *, size_t);
+char *c_strdup(char*);
 int catoi(char *);
 char *citoa(char *, int);
+int getword(char*, int);
 char *creverse(char *);
 ptrdiff_t cstrindex(char *, char);
-void cqsort(char[], size_t, size_t, int (*) (char, char), int);
 void string_qsort(char*[], size_t, size_t, int (*) (char*, char*));
 void string_qsort_f(char*[], size_t, size_t, int (*) (char*, char*), int (*) (char));
 char *string_filter(char*, int (*) (char));

@@ -1,0 +1,48 @@
+expect: program that reads first two lines of input and sets first as name and second as def
+at the end outputs name with definitions
+conOps: 
+---------------------
+we define hash table
+struct will contain:
+	name
+	def
+
+hash(name) that return index
+	takes name, multiplies each char with previous acc-product and add constant (13)
+	return n % hashsize;
+
+lookup(hashtab, name) returns definition of name 
+	takes hash(name) and looks for that address,
+		if not NULL return def 
+		else return NULL
+
+install(hashtab, name, def) installs definition for name
+	looks up for name
+		if NULL 
+			malloc struct;
+			set name and def;
+				alloc memory for them too
+			set hashtab[hash(name)] to that struct;
+
+void undef(hashtab, name) 
+	remove name/def from hash table  
+		basically means free memory of that structure and assign it NULL
+			free(hashtab[hash(name)]) if it is not NULL
+
+----------------------------------------------------------------------
+read input as words in each line
+	getword configure so that it will read \n too
+
+take first two words: if there are more, just skip
+if there are less,
+
+first one is considered as name
+second one the definition
+	there will be counter, if it is not 2 when \n is encountered 
+		 warn about it and move to next line
+
+it installs name with definitions
+
+after EOF it will output all the array with defs and names
+
+

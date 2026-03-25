@@ -1,0 +1,36 @@
+expectations: 
+just program that outputs every line 
+*one aspect: #define parameter that can be set directly with input 
+to set name and the replacement for that 
+after setting define program will replace all of the occurences of that word with def
+if after # any other word than "define", output that it's undefined macro, and keep further
+after define should be two arguments, name and definition
+if arguments aren't enough, move to the next line outputting the problem
+
+if too many arguments, just skip redundant, cuz program is processed line by line
+
+ConOps:
+!note: getword is only for words, if any sign appears, the sign itself is considered as a word
+--------------------------decomp 1 ----------------------------
+
+get word and scan if it's #
+	if yes: the next word should be "define"
+		if yes 
+			next two words are names and definition
+				if they are not enough, just skip the whole line
+
+				install them
+		else 
+			output that this word is not macro, and go further
+	else if it's not #:
+		lookup that on hash table 
+			if there is, output the definition
+			else outptu the word itself
+
+upd: it also supports undef macro that undefines name from dict
+
+-------------------------decomp 2------------------------------
+
+get the line and scan every word if it is on dictionary
+if yes replace with definition
+
