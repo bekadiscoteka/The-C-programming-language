@@ -1,0 +1,80 @@
+=================================
+expectations:
+
+program "convert" that takes args:
+u: converts stdin to uppercase
+l: converts stdin to lowercase
+if no on defined: error message: you should define the u or l
+when there are more than one argument, it takes the first one
+
+program should output the mode (case of output) when started
+
+terminates at EOF
+----------------------
+ConOps: 
+you enter to the terminal:
+"
+convert u 
+"
+and then it will bread from keyboard
+or 
+"
+convert l < file.txt
+"
+
+to read some other text file
+
+and the program will convert based on the case 
+and output processed text 
+
+==================================
+
+
+Decomposition:
+
+argument decoder
+	exp: based on the input gives decision upper or lower	
+	ConOps:
+	if argc is 1 terminate the program with output message:
+		"error, there is no argument, please type u or l"
+	else 
+		reads argv[] words untill it's u or l:
+			outputs that mode
+			should check the validness of that 
+			saves that value and breaks the search;
+				
+		doesn't find? output error, terminate the program
+
+
+
+	decompose further
+		argc == 1 ? terminate, output error
+
+		char temp;
+		do {
+			if (--argc == 0) {
+				printf("Missing corresponding arguments: please provide arg u or l");
+				return 0;
+			}
+		}
+		while 
+			(strcmp((temp = *++argv), "u") != 0
+			|| strcmp(temp, "l") != 0)
+
+
+		
+			
+	
+input processor:
+	exp: based on the decision makes characters upper or lower;
+
+	ConOps:
+	if temp[0] == 'u':
+		while it's not EOF
+			putchar(toupper(getchar()));
+	else:
+
+		while it's not EOF
+			putchar(tolower(getchar()));
+
+
