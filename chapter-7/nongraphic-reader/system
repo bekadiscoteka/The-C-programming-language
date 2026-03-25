@@ -1,0 +1,49 @@
+EXP:
+program that reads stdinput and prints every nongraphic character;
+outputs in readible way,  
+
+it uses hex by default, if there is argument -o, it should use octal 
+for non-graphic characters
+
+since there will be no newline, we should reset line after fixed character count
+================================================================
+
+ConOps: 
+reads argument: if there is no -o configures system to use octal
+if there is no: hex
+
+line tracker that resets line after each 15 characters
+
+reads input sequentially, and finds out what is currect character:
+	if graphic: print it as it is
+	else print in hex or octal
+
+=====================================================
+
+
+
+DCMPS:
+
+argument reader:
+	read argument sequentially, look for -o
+
+stdin reader:
+	exp:
+	reads stdin sequentially, and prints \n after each 15 character
+	==================================================
+	conOps: getchar() and putchar()
+
+find out 
+	EXP:
+	find out which is this character printible
+	==================================================	
+	conOps: isprint() function return 1 if it's printible 
+
+
+print
+	EXP:
+	if it's graphic print it as it is; if not print it as hex/oct
+	==================================================	
+	conOps: use print() as %c if it is printable, if not %h or %o
+
+
