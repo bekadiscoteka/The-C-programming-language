@@ -13,19 +13,28 @@ IRD:
 void miniprintf(char *txt, ...); dynamic
 
 functionality
- - it shall send string exactly as it is to standard output, excepting variables integration process
- - it shall provide option to integrate upto [TBD] variables into text:
-	types include: int, float, double, char, string, unsigned int, short, long
- - it shall provide option to set precision for floating point numbers
-
+ - it shall send string exactly as it is to standard output, excepting variables integration standard
+ - it shall integrate variables in the same order stated by syntax inside the text, as the order of arguments
 
 human factor:
  - user shall provide valid string format
-
-
+ - user shall follow variable integration standard 
 
 performance
  - it should have time complexity of o(n)
  
 
+ DCM:
+
+output sender: 
+E: sends string to standard output
+IRD: void printf(const char* s);
+FRD:
+- shall send string exactly as it is as to std output  
+
+integrator:
+E: replaces syntax with approprite argument into stated in text place, following the order
+
+
+ 
 
