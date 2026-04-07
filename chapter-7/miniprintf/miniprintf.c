@@ -3,6 +3,11 @@
 #include <ctype.h>
 #define MAXPARAM 100
 
+#define place_arg(type) {\
+	type temp = va_arg(arg, type);\
+	printf(param, temp);\
+}\
+
 typedef enum {IDLE, SPEC} States;
 
 void miniprintf(char* fmt, ...) {
@@ -30,48 +35,27 @@ void miniprintf(char* fmt, ...) {
 				if (c == '.' || isdigit(c))
 					*params++ = c;
 				else {
+
 					state = IDLE;
+					*params++ = c;
+					*params = '\0';
+
 					switch (c) {
 						case 'd':
-							*params++ = c;
-							*params = '\0';
-							int tempd = va_arg(arg, int);
-							printf("Inside d\n");
-							printf(param, tempd);
+							place_arg(int);
 							break;
-						case 'e':
-							*params++ = c;
-							*params = '\0';
-							double tempe = va_arg(arg, double);
-							printf(param, tempe);
-							break;
-						case 'f':
-							*params++ = c;
-							*params = '\0';
-							double tempf = va_arg(arg, double);
-							printf( param, tempf);
+						case 'e': case 'f':
+							place_arg(double);
 							break;
 						case 's':
-							*params++ = c;
-							*params = '\0';
-							char *temps = va_arg(arg, char*);
-							printf(param, temps);
+							place_arg(char*);
 							break;
 						case 'c':	
-							*params++ = c;
-							*params = '\0';
-							int tempc = va_arg(arg, int);
-							printf(param, tempc);
-							break;
+							place_arg(int);
 						case 'u':
-							*params++ = c;
-							*params = '\0';
-							unsigned int tempu = va_arg(arg, unsigned int);
-							printf(param, tempu);
+							place_arg(unsigned int);
 							break;
 						case '%':
-							*params++ = c;
-							*params = '\0';
 							printf(param);
 							break;
 						default: 
