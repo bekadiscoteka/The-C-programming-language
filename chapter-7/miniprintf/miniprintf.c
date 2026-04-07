@@ -69,7 +69,11 @@ void miniprintf(char* fmt, ...) {
 							unsigned int tempu = va_arg(arg, unsigned int);
 							printf(param, tempu);
 							break;
-
+						case '%':
+							*params++ = c;
+							*params = '\0';
+							printf(param);
+							break;
 						default: 
 							printf("there is no such specifier: %c", c);
 							break;
@@ -84,5 +88,6 @@ void miniprintf(char* fmt, ...) {
 	
 
 }
+
 
 
