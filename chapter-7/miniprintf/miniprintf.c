@@ -68,10 +68,12 @@ void miniprintf(char* fmt, ...) {
 		}
 	}
 	
-
-	
+	va_end(arg);
 
 }
 
 
-
+int main(void) {
+	miniprintf("Hello %s", ",world");
+	return 0;
+}
