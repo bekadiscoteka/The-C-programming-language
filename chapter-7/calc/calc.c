@@ -100,6 +100,7 @@ int main(void) {
 				state = IDLE;
 				break;
 			case CMD: 
+				state = IDLE;
 				ungetc(c, stdin);	
 				scanf("%s", temps); 
 				c = getchar();
@@ -163,8 +164,6 @@ int main(void) {
 						break;
 				}		
 
-			
-				state = IDLE;
 				break;
 			case SPACE:
 				while ((c = getchar()) == ' ' || c == '\t' || c == '\n')
