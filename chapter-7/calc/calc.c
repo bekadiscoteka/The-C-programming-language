@@ -67,8 +67,52 @@ int strlistcmp(int listc, char* t, ...) {
 	va_end(a);
 	return -1;
 }
+void sayHello(void) {
+	char str[] = {
+		"REVERSE POLISH CALCULATOR\n"
+		"To see manual: help, HELP"
+	};
+
+	printf("%s\n", str);
+}
+
+void help_section(void) {
+	char str[] = {
+	"Expected reverse-polish calculator;\n\
+EB01: numbers are added into stack, when operation is performed on top 2 numbers of stack; \n\
+EB02: it supports floating point number format (32 bit);\n\
+EB03: it supports minus sign format;\n\ 
+EB04: supported operations: * + - / \n\
+EB05: [ENTER] is for updating stack\n\
+CONOPS:\n\
+	input: 5 5 6 + [enter]\n\
+	stack: 5 11 \n\
+	input: 5.1 5 6 + - [enter]\n\
+	stack: -5.9\n\ 
+	input: 1 1 -2.1 + 1 * [enter]\n\
+	stack: -3.1\n\ 
+	input: 1 1 + TOP [ENTER]\n\
+	output: 2\n\
+EB06: also supports special commands: \n\
+	General:\n\
+	CLEAR - for clearing the stack \n\
+	TOP - get top element\n\
+	DUP - duplicate top element	\n\
+	SWAP - swap top 2 element \n\
+	EXIT - quit the program \n\
+	Math:\n\
+	SIN - sinus of top number\n\
+	COS - cosine of top number\n\
+	EXP - e powered by top number\n\
+	POW - power operation of top 2 numbers\n\
+==================================================\n"
+	};
+	printf("%s", str);
+}
 
 int main(void) {
+	
+	sayHello();
 	enum {IDLE, CMD, OPER, SPACE, NUM} state = IDLE;
 	Stack s;
 	stack_init(&s);
@@ -81,11 +125,10 @@ int main(void) {
 				c = getchar();
 				if (isdigit(c)) {
 					state = NUM;
-					printf("number\n");
 				}
 				else if (isalpha(c)) 
 					state = CMD; 
-				else if (c == ' ' || c == '\t') 
+				else if (isspace(c)) 
 					state = SPACE;
 				else if (c == EOF) 
 					return 0;
@@ -105,9 +148,9 @@ int main(void) {
 				scanf("%s", temps); 
 				c = getchar();
 			
-				enum {CLEAR, TOP, DUP, SWAP, EXIT, SIN, COS, EXP, POW} searchRes;
+				enum {CLEAR, TOP, DUP, SWAP, EXIT, SIN, COS, EXP, POW, help, HELP} searchRes;
 				searchRes = strlistcmp(
-					9, temps,
+					11, temps,
 					// gen
 					"CLEAR",
 					"TOP",
@@ -119,14 +162,21 @@ int main(void) {
 					"SIN",
 					"COS",
 					"EXP",
-					"POW"
+					"POW",
+					"help",
+					"HELP"
 				);
+
+				switch(searchRes) {
+					case HELP: case help:
+						help_section();
+						break;
+					case EXIT:
+						printf("Goodbye!\n");
+						return 0;
+						break;
+				}
 			
-				if (searchRes == EXIT) {
-					printf("Goodbye!\n");
-					return 0;
-				}	
-					
 				if (isempty(&s)) {
 					printf("Stack is empty\n");
 					break;
@@ -159,6 +209,9 @@ int main(void) {
 					case EXP:
 						push(&s, exp(pop(&s)));
 						break;
+					case HELP: case help:
+						help_section();
+						break;
 					default:
 						printf("Command: %s is not supported\n", temps);
 						break;
@@ -166,7 +219,7 @@ int main(void) {
 
 				break;
 			case SPACE:
-				while ((c = getchar()) == ' ' || c == '\t' || c == '\n')
+				while (isspace(c = getchar()))
 				   ;
 				ungetc(c, stdin);
 				state = IDLE;

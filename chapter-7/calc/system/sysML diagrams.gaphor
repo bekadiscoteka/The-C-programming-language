@@ -1366,7 +1366,6 @@
 <UML:Activity id="b86d9af2-3660-11f1-ab82-50ebf6e4fe33">
 <edge>
 <reflist>
-<ref refid="15d93512-36a3-11f1-ad20-50ebf6e4fe33"/>
 <ref refid="174c443a-36a4-11f1-a9b7-50ebf6e4fe33"/>
 <ref refid="66084ad6-36a4-11f1-aa61-50ebf6e4fe33"/>
 <ref refid="68f0109f-36a5-11f1-85c1-50ebf6e4fe33"/>
@@ -1437,21 +1436,21 @@
 <ref refid="2be9fa5d-371b-11f1-838a-50ebf6e4fe33"/>
 <ref refid="f0dac309-371f-11f1-931c-50ebf6e4fe33"/>
 <ref refid="199113e8-3720-11f1-a7b6-50ebf6e4fe33"/>
-<ref refid="49c1edb5-36a3-11f1-8f1d-50ebf6e4fe33"/>
-<ref refid="2a73c12a-371a-11f1-b6d8-50ebf6e4fe33"/>
-<ref refid="41fa70e0-36a6-11f1-bccc-50ebf6e4fe33"/>
 <ref refid="0ca786ed-36a3-11f1-94ad-50ebf6e4fe33"/>
-<ref refid="133301a8-3720-11f1-be66-50ebf6e4fe33"/>
-<ref refid="19391c70-371e-11f1-b6a0-50ebf6e4fe33"/>
-<ref refid="62f4e9cc-36a4-11f1-9f33-50ebf6e4fe33"/>
+<ref refid="49c1edb5-36a3-11f1-8f1d-50ebf6e4fe33"/>
 <ref refid="ef8cb225-36a3-11f1-a5a2-50ebf6e4fe33"/>
-<ref refid="18616ede-36a7-11f1-bf35-50ebf6e4fe33"/>
-<ref refid="de98d422-36a5-11f1-8c5e-50ebf6e4fe33"/>
-<ref refid="f3ad6863-371f-11f1-8a04-50ebf6e4fe33"/>
+<ref refid="62f4e9cc-36a4-11f1-9f33-50ebf6e4fe33"/>
 <ref refid="99d5659f-36a4-11f1-bc4a-50ebf6e4fe33"/>
 <ref refid="0c8094e1-36a5-11f1-a7d3-50ebf6e4fe33"/>
-<ref refid="fc815ebf-371f-11f1-a911-50ebf6e4fe33"/>
 <ref refid="c9685d30-36a5-11f1-a21f-50ebf6e4fe33"/>
+<ref refid="de98d422-36a5-11f1-8c5e-50ebf6e4fe33"/>
+<ref refid="41fa70e0-36a6-11f1-bccc-50ebf6e4fe33"/>
+<ref refid="18616ede-36a7-11f1-bf35-50ebf6e4fe33"/>
+<ref refid="2a73c12a-371a-11f1-b6d8-50ebf6e4fe33"/>
+<ref refid="19391c70-371e-11f1-b6a0-50ebf6e4fe33"/>
+<ref refid="f3ad6863-371f-11f1-8a04-50ebf6e4fe33"/>
+<ref refid="fc815ebf-371f-11f1-a911-50ebf6e4fe33"/>
+<ref refid="133301a8-3720-11f1-be66-50ebf6e4fe33"/>
 </reflist>
 </ownedPresentation>
 </SysML:ActivityDiagram>
@@ -2125,7 +2124,7 @@
 </SysML:Requirement>
 <SysML:RequirementItem id="7cb33dc5-3675-11f1-affb-50ebf6e4fe33">
 <matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 514.822741863551, -456.2039826518779)</val>
+<val>(1.0, 0.0, 0.0, 1.0, 514.822741863551, -457.61608215627325)</val>
 </matrix>
 <top-left>
 <val>(-191.46329483168518, 270.0)</val>
@@ -2268,7 +2267,7 @@
 <val>(1.0, 0.0, 0.0, 1.0, 468.21082757719324, -158.61608215627325)</val>
 </matrix>
 <points>
-<val>[(-596.4632948316852, -143.89165378043623), (-604.5604165718829, -29.0), (-144.85138054532746, -20.610045321196765)]</val>
+<val>[(-596.4632948316852, -143.89165378043623), (-604.5604165718829, -29.0), (-144.85138054532746, -22.02214482559208)]</val>
 </points>
 <head-connection>
 <ref refid="e704a634-3660-11f1-b46e-50ebf6e4fe33"/>
@@ -2512,11 +2511,6 @@ what commands are available</val>
 <activity>
 <ref refid="b86d9af2-3660-11f1-ab82-50ebf6e4fe33"/>
 </activity>
-<outgoing>
-<reflist>
-<ref refid="15d93512-36a3-11f1-ad20-50ebf6e4fe33"/>
-</reflist>
-</outgoing>
 <presentation>
 <reflist>
 <ref refid="5cf2fddf-36a2-11f1-807a-50ebf6e4fe33"/>
@@ -2550,11 +2544,6 @@ what commands are available</val>
 <activity>
 <ref refid="b86d9af2-3660-11f1-ab82-50ebf6e4fe33"/>
 </activity>
-<incoming>
-<reflist>
-<ref refid="15d93512-36a3-11f1-ad20-50ebf6e4fe33"/>
-</reflist>
-</incoming>
 <name>
 <val>fetch state machine</val>
 </name>
@@ -2570,7 +2559,7 @@ by token we mean here, word separated by space: '\t' or ' ' </val>
 </UML:Action>
 <UML:ActionItem id="73363f84-36a2-11f1-b5a8-50ebf6e4fe33">
 <matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 649.4263199369582, 36.57728545304844)</val>
+<val>(1.0, 0.0, 0.0, 1.0, 649.4263199369582, 36.57728545304838)</val>
 </matrix>
 <top-left>
 <val>(0.0, 0.0)</val>
@@ -2664,38 +2653,16 @@ by token we mean here, word separated by space: '\t' or ' ' </val>
 <parent>
 <ref refid="b86fe74b-3660-11f1-bb15-50ebf6e4fe33"/>
 </parent>
-<subject>
-<ref refid="15d93512-36a3-11f1-ad20-50ebf6e4fe33"/>
-</subject>
 <matrix>
 <val>(1.0, 0.0, 0.0, 1.0, 685.4263199369582, 17.997038539468384)</val>
 </matrix>
 <points>
-<val>[(10.0, -70.06172839506164), (13.999999999999886, 18.580246913580055)]</val>
+<val>[(10.0, -70.06172839506164), (9.999999999999886, -0.19753086419751753)]</val>
 </points>
 <head-connection>
 <ref refid="5cf2fddf-36a2-11f1-807a-50ebf6e4fe33"/>
 </head-connection>
-<tail-connection>
-<ref refid="73363f84-36a2-11f1-b5a8-50ebf6e4fe33"/>
-</tail-connection>
 </UML:ControlFlowItem>
-<UML:ControlFlow id="15d93512-36a3-11f1-ad20-50ebf6e4fe33">
-<activity>
-<ref refid="b86d9af2-3660-11f1-ab82-50ebf6e4fe33"/>
-</activity>
-<presentation>
-<reflist>
-<ref refid="0ca786ed-36a3-11f1-94ad-50ebf6e4fe33"/>
-</reflist>
-</presentation>
-<source>
-<ref refid="5cf24016-36a2-11f1-9621-50ebf6e4fe33"/>
-</source>
-<target>
-<ref refid="73359afe-36a2-11f1-93bc-50ebf6e4fe33"/>
-</target>
-</UML:ControlFlow>
 <UML:DecisionNode id="34bb563d-36a3-11f1-8cc8-50ebf6e4fe33">
 <activity>
 <ref refid="b86d9af2-3660-11f1-ab82-50ebf6e4fe33"/>
@@ -2801,7 +2768,7 @@ by token we mean here, word separated by space: '\t' or ' ' </val>
 <val>(1.0, 0.0, 0.0, 1.0, 847.1547149986866, 83.49086569996223)</val>
 </matrix>
 <points>
-<val>[(-151.72839506172818, -2.9135802469137886), (-151.72839506172852, 46.408888137673216)]</val>
+<val>[(-151.72839506172852, -2.9135802469138454), (-151.72839506172852, 46.408888137673216)]</val>
 </points>
 <head-connection>
 <ref refid="73363f84-36a2-11f1-b5a8-50ebf6e4fe33"/>
@@ -3089,7 +3056,7 @@ whole numbers as int (C machine dependent): examples: 3 4 5</val>
 </UML:DecisionNode>
 <UML:DecisionNodeItem id="eebf8443-36a4-11f1-9e24-50ebf6e4fe33">
 <matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 591.9909377462568, 366.8860793804341)</val>
+<val>(1.0, 0.0, 0.0, 1.0, 593.1020488573677, 366.88607938043424)</val>
 </matrix>
 <top-left>
 <val>(0.0, 0.0)</val>
@@ -3130,7 +3097,7 @@ whole numbers as int (C machine dependent): examples: 3 4 5</val>
 <val>(1.0, 0.0, 0.0, 1.0, 726.6822957709481, 505.1576843187058)</val>
 </matrix>
 <points>
-<val>[(-124.69135802469134, -108.27160493827165), (-124.69135802469134, 18.518518518518533)]</val>
+<val>[(-123.58024691358048, -108.27160493827165), (-124.69135802469134, 18.518518518518533)]</val>
 </points>
 <head-connection>
 <ref refid="eebf8443-36a4-11f1-9e24-50ebf6e4fe33"/>
@@ -3295,7 +3262,7 @@ push result into stack</val>
 <val>(1.0, 0.0, 0.0, 1.0, 479.3769372209091, 342.0095361705577)</val>
 </matrix>
 <points>
-<val>[(112.6140005253477, 39.8765432098765), (38.14814814814804, 39.87654320987656), (38.5679012345677, 88.88888888888891)]</val>
+<val>[(113.72511163645856, 39.8765432098765), (38.14814814814804, 39.87654320987656), (38.5679012345677, 88.88888888888891)]</val>
 </points>
 <head-connection>
 <ref refid="eebf8443-36a4-11f1-9e24-50ebf6e4fe33"/>
@@ -4365,7 +4332,7 @@ push result into stack</val>
 <val>(1.0, 0.0, 0.0, 1.0, 246.0, 66.0)</val>
 </matrix>
 <points>
-<val>[(-121.0, 73.0), (11.281950702403265, 15.813573436683953), (11.281950702403265, -65.67798615802636)]</val>
+<val>[(-121.0, 73.0), (-58.78743961352666, 52.266408641081966), (-9.787439613526658, 22.813573436683953), (11.281950702403265, -65.67798615802636)]</val>
 </points>
 <head-connection>
 <ref refid="260cbf65-3724-11f1-8fa1-50ebf6e4fe33"/>
@@ -5853,7 +5820,7 @@ push result into stack</val>
 <val>(1.0, 0.0, 0.0, 1.0, 289.2819507024032, 23.813573436683953)</val>
 </matrix>
 <points>
-<val>[(-38.0, -23.49155959471031), (-169.28195070240326, 115.18642656331605)]</val>
+<val>[(-38.0, -23.49155959471031), (-123.06939031592981, 21.536057319769213), (-150.0693903159298, 54.53605731976921), (-169.28195070240326, 115.18642656331605)]</val>
 </points>
 <head-connection>
 <ref refid="3ef9b332-373b-11f1-88e7-50ebf6e4fe33"/>
@@ -5885,6 +5852,9 @@ push result into stack</val>
 </trigger>
 </UML:Transition>
 <UML:Constraint id="3d542b37-37b8-11f1-a04b-50ebf6e4fe33">
+<specification>
+<ref refid="301a45a8-3813-11f1-a88d-50ebf6e4fe33"/>
+</specification>
 <transition>
 <ref refid="3d50e974-37b8-11f1-9cfc-50ebf6e4fe33"/>
 </transition>
@@ -6584,5 +6554,18 @@ push result into stack</val>
 <ref refid="a26028dd-37ba-11f1-a0cc-50ebf6e4fe33"/>
 </target>
 </UML:ControlFlow>
+<UML:LiteralString id="2e408721-3813-11f1-87db-50ebf6e4fe33">
+<value>
+<val>is space?</val>
+</value>
+</UML:LiteralString>
+<UML:LiteralString id="301a45a8-3813-11f1-a88d-50ebf6e4fe33">
+<owningConstraint>
+<ref refid="3d542b37-37b8-11f1-a04b-50ebf6e4fe33"/>
+</owningConstraint>
+<value>
+<val></val>
+</value>
+</UML:LiteralString>
 </model>
 </gaphor>
