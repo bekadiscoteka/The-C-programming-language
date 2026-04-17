@@ -212,6 +212,12 @@ int main(void) {
 					case HELP: case help:
 						help_section();
 						break;
+
+					case POW:
+						state = IDLE;
+						a = pop(&s); b = pop(&s);
+						push(&s, pow(a, b));
+						break;
 					default:
 						printf("Command: %s is not supported\n", temps);
 						break;
