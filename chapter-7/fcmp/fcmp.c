@@ -6,10 +6,15 @@
 
 FILE* fopen_err(char* name, char* mode) {
 	FILE* ftemp = fopen(name, mode);
+
 	if (ftemp == NULL) {
-		exit(2);
 		fprintf(stderr, "Cannot open file %s, make sure file exists and you have appropriate permissions\n", name);
+		exit(2);
 	}
+	/*
+	if (ferror(ftemp))
+		fprintf(stderr, "File %s doesn't exist\n");
+		*/
 	return ftemp;	
 }
 
