@@ -65,7 +65,12 @@ int main(int argc, char* argv[]) {
 			++argv;
 #endif
 
+			fclose(fd);
 		}
+		else {
+			fprintf(stderr, "Can't open file %s\n", *(argv++));
+		}
+		
 
 	}
 	fprintf(stderr, "End of program\n");
