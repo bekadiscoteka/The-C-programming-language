@@ -107,7 +107,7 @@ EB06: also supports special commands: \n\
 	POW - power operation of top 2 numbers\n\
 ==================================================\n"
 	};
-	printf("%s", str);
+	printf("\f%s", str);
 }
 
 int main(void) {
