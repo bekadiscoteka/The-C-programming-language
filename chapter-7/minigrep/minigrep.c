@@ -51,5 +51,7 @@ int main(int argc, char *argv[]) {
 
 	while (( fn = *++argv ) != NULL) 
 		found += patsearch(fopen(fn, "r"), stdout, fn, pat);
+
+	printf("Overall found: %d\n", found);
 	return 0;
 }
