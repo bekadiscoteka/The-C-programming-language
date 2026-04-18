@@ -18,7 +18,7 @@ int patsearch(FILE *fin, FILE *fout, const char *name, const char *pat) {
 		while (*linep != '\0') {
 			if (strncmp(pat, linep, strlen(pat)) == 0) {
 				linep += strlen(pat);
-				fprintf(fout, "%s%d: %s", name, linec, line);
+				fprintf(fout, "%s line %d: %s", name, linec, line);
 				foundc++;
 			}
 			else 
@@ -39,16 +39,17 @@ int main(int argc, char *argv[]) {
 		fprintf(stderr, "No pattern to search\n");	
 		return 1;
 	}
-	else if (argc == 2) {
+
+	char* pat = *++argv;
+
+	if (argc == 2) {
 		fprintf(stderr, "No files entered, reading from stdin\n");
 		fd = stdin;
+		found += patsearch(stdin, stdout, "stdin", pat);
 	}
 
-	char* pat = ++*argv;
-	printf("pat=%s", pat);
 
-	while (++argv != NULL) 
-		fn = *argv;
+	while (( fn = *++argv ) != NULL) 
 		found += patsearch(fopen(fn, "r"), stdout, fn, pat);
 	return 0;
 }
