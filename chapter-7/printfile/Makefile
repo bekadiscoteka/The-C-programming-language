@@ -1,4 +1,4 @@
-bin/prinffile: printfile.c
+bin/printfile: printfile.c
 	gcc $^ -o $@ 
 
 
