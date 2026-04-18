@@ -33,6 +33,8 @@ int main(int argc, char* argv[]) {
 				printf("%d %s", linec++, line);
 			}
 
+#ifdef INTERACTIVE
+
 			printf("- Enter q - for quitting, n - for next file%s", argv != argv_init ? ", p - for previous\n" : ".\n" );	
 
 			int invalid = 1;
@@ -59,10 +61,13 @@ int main(int argc, char* argv[]) {
 						break;
 				}
 			}
+#else 
+			++argv;
+#endif
 
 		}
 
 	}
-	printf("End of program\n");
+	fprintf(stderr, "End of program\n");
 	return 0;
 }
