@@ -34,7 +34,7 @@ we should implement those functions with less use of system calls
 
 #define sEOF (-1)
 #define sNULL (0)
-#define sBUFSIZ 1024
+#define sBUFSIZ 10
 #define OPEN_MAX 20
 
 #define s_stdin 0
@@ -114,8 +114,10 @@ sFILE *s_fopen(char *name, char *mode) {
 	return f; 
 }
 
+
+
 int _fillbuf(sFILE *fp) {
-	if (fp->flag == _ERR || fp->flag == _EOF) 
+	if ((fp->flag & _READ) == 0)
 		return 0;
 
 	if (fp->base == NULL)
@@ -140,21 +142,29 @@ int _fillbuf(sFILE *fp) {
 
 int _flushbuf(sFILE *p, int c) {
 	if (p->flag == _ERR || p->flag == _EOF) 
-		return 0;
-
-	int bufsize = sBUFSIZ;
+		return -1;
 
 	if (p->base == NULL) {	
 		p->base = malloc(sBUFSIZ);
-		bufsize = 0;
+		p->ptr = p->base;
+		p->cnt = sBUFSIZ;
+
+		p->cnt--;
+		*p->ptr++ = c;
+		return 0;
 	}
+
 	p->ptr = p->base;
 	p->cnt = sBUFSIZ;
+
+
+	if (( write(p->fd, p->base, sBUFSIZ ) == -1))
+		return -1;
 
 	// additional c
 	p->cnt--;
 	*p->ptr++ = c;
-	write(p->fd, p->base, bufsize);	
+
 	return 0;
 }
 
