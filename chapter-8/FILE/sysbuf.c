@@ -43,7 +43,7 @@ we should implement those functions with less use of system calls
 
 static unsigned FILE_N = 3;
 
-typedef struct _iobuf {
+typedef struct __iobuf {
 	char* ptr;
 	char* base;
 	int cnt;
@@ -56,6 +56,12 @@ enum flags {
 	_WRITE = 2,
 	_EOF = 4,
 	_ERR = 8
+};
+
+enum fseek_origins {
+	SFSEEK_BEGIN=0,
+	SFSEEK_CURR,
+	SFSEEK_END
 };
 
 int _fillbuf(sFILE *);
@@ -113,6 +119,8 @@ sFILE *s_fopen(char *name, char *mode) {
 	return f; 
 }
 
+
+
 int s_fclose(sFILE *p) {
 	if (s_fflush(p) == -1) 
 		return -1;
@@ -145,6 +153,43 @@ int _fillbuf(sFILE *fp) {
 	return *fp->ptr++; 
 }
 
+int s_fflush(sFILE *p) {   // return number of flushed elements, -1 for error
+	if ( (p->flag & _WRITE) == 0 )
+		return -1;
+
+	if (p->base != NULL) {
+		p->ptr = p->base;
+		int n = write(p->fd, p->base, sBUFSIZ - p->cnt);
+
+		if (n == -1) 
+			p->flag = _ERR;
+
+		p->cnt = sBUFSIZ;
+		return n;
+	}
+	return -1;
+}
+
+int s_fseek(sFILE *f, long offset, int origin) {
+	if (f == NULL) 
+		return -1;
+
+	switch (f->flag) {
+		case _WRITE:
+			if (s_fflush(f) == -1) 
+				return -1;
+			break;
+		case _READ:
+			f->ptr = f->base + sBUFSIZ;
+			f->cnt = 0;	
+			break;
+		default:	
+			return -1;
+	}	
+
+	if ((lseek(s_fileno(f), offset, origin)) == -1)
+		return -1;
+}
 
 int _flushbuf(sFILE *p, int c) {
 	if ((p->flag & _WRITE) == 0)
@@ -174,22 +219,7 @@ int _flushbuf(sFILE *p, int c) {
 	return 0;
 }
 
-int s_fflush(sFILE *p) {   // return number of flushed elements, -1 for error
-	if ( (p->flag & _WRITE) == 0 )
-		return -1;
 
-	if (p->base != NULL) {
-		p->ptr = p->base;
-		int n = write(p->fd, p->base, sBUFSIZ - p->cnt);
-
-		if (n == -1) 
-			p->flag = _ERR;
-
-		p->cnt = sBUFSIZ;
-		return n;
-	}
-	return -1;
-}
 
 
 
