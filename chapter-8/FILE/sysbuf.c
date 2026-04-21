@@ -147,7 +147,7 @@ int _fillbuf(sFILE *fp) {
 			return sEOF;
 	}
 
-	fp->cnt = sBUFSIZ;
+	fp->cnt = state;
 	fp->ptr = fp->base;
 	fp->cnt--;
 	return *fp->ptr++; 
