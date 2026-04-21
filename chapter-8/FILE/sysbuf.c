@@ -60,7 +60,7 @@ enum flags {
 
 int _fillbuf(sFILE *);
 int _flushbuf(sFILE *, int);
-
+int s_fflush(sFILE *);
 
 
 #define s_fgetc(p) (--(p->cnt) >= 0 ?\
@@ -114,15 +114,11 @@ sFILE *s_fopen(char *name, char *mode) {
 }
 
 int s_fclose(sFILE *p) {
-	if (p->base != NULL) {
-
-		if ((p->flag & _WRITE) != 0)
-			_flushbuf(p, 0);
-
-		free(p->base);
-	}
-	
+	if (s_fflush(p) == -1) 
+		return -1;
+	free(p->base);	
 	free(p);
+	return 0;
 }
 
 int _fillbuf(sFILE *fp) {
@@ -148,6 +144,7 @@ int _fillbuf(sFILE *fp) {
 	fp->cnt--;
 	return *fp->ptr++; 
 }
+
 
 int _flushbuf(sFILE *p, int c) {
 	if ((p->flag & _WRITE) == 0)
@@ -176,6 +173,27 @@ int _flushbuf(sFILE *p, int c) {
 
 	return 0;
 }
+
+int s_fflush(sFILE *p) {   // return number of flushed elements, -1 for error
+	if ( (p->flag & _WRITE) == 0 )
+		return -1;
+
+	if (p->base != NULL) {
+		p->ptr = p->base;
+		int n = write(p->fd, p->base, sBUFSIZ - p->cnt);
+
+		if (n == -1) 
+			p->flag = _ERR;
+
+		p->cnt = sBUFSIZ;
+		return n;
+	}
+	return -1;
+}
+
+
+
+
 
 
 
