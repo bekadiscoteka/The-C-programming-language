@@ -34,7 +34,7 @@ we should implement those functions with less use of system calls
 
 #define sEOF (-1)
 #define sNULL (0)
-#define sBUFSIZ 10
+#define sBUFSIZ 1024
 #define OPEN_MAX 20
 
 #define s_stdin 0
@@ -54,9 +54,8 @@ typedef struct _iobuf {
 enum flags {
 	_READ = 1,
 	_WRITE = 2,
-	_APPEND = 4,
-	_EOF = 8,
-	_ERR = 16
+	_EOF = 4,
+	_ERR = 8
 };
 
 int _fillbuf(sFILE *);
@@ -114,16 +113,27 @@ sFILE *s_fopen(char *name, char *mode) {
 	return f; 
 }
 
+int s_fclose(sFILE *p) {
+	if (p->base != NULL) {
 
+		if ((p->flag & _WRITE) != 0)
+			_flushbuf(p, 0);
+
+		free(p->base);
+	}
+	
+	free(p);
+}
 
 int _fillbuf(sFILE *fp) {
 	if ((fp->flag & _READ) == 0)
-		return 0;
+		return -1;
 
 	if (fp->base == NULL)
 		fp->base = malloc(sBUFSIZ);
 
 	int state = read(fp->fd, fp->base, sBUFSIZ);	
+
 	switch (state) {
 		case -1:
 			fp->flag = _ERR;
@@ -133,7 +143,6 @@ int _fillbuf(sFILE *fp) {
 			return sEOF;
 	}
 
-	
 	fp->cnt = sBUFSIZ;
 	fp->ptr = fp->base;
 	fp->cnt--;
@@ -141,7 +150,7 @@ int _fillbuf(sFILE *fp) {
 }
 
 int _flushbuf(sFILE *p, int c) {
-	if (p->flag == _ERR || p->flag == _EOF) 
+	if ((p->flag & _WRITE) == 0)
 		return -1;
 
 	if (p->base == NULL) {	
