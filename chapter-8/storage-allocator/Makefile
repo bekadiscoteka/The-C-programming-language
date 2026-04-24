@@ -1,5 +1,5 @@
 bin/out: main.o sMalloc.o
-	gcc $^ -o $@
+	gcc $^ -o $@ -g
 
 %.o: %.c
 	gcc $^ -o $@ -c

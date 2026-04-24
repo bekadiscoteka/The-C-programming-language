@@ -2,6 +2,8 @@
 #include <stdio.h>
 #define NALLOC 1024 /* minimum #units to request */
 
+#define DIVMASK_HEADER ( ( 0UL - 1 ) - ( sizeof(Header) - 1 ))
+
 static Header *morecore(unsigned);
 static Header base;         /* empty list to get started */
 static Header *freep = NULL; /* start of free list */
@@ -46,7 +48,7 @@ void *s_malloc(unsigned nbytes)
 void *s_calloc(unsigned n, unsigned size) {
 	unsigned nbytes;
 
-	if (size == 0 | n == 0)
+	if (size == 0 || n == 0)
 		return NULL;
 
 	if (__builtin_mul_overflow(n, size, &nbytes))
@@ -120,8 +122,11 @@ void s_bfree(void *cp, unsigned size) {
 
 	/* alignment check */
 	
-	if ( ((unsigned int)cp % sizeof(Header)) == 0 ) {
-		fprintf(stderr, "%s", "space is not aligned\n");
+	if ( (( unsigned long )cp % sizeof(Header)) != 0 ) {
+		fprintf(stderr, "%s", "space alignment issues, not all memory will be exploited\n");
+		void* newptr = DIVMASK_HEADER & ((unsigned long) cp + sizeof(Header));
+		if (newptr < cp + size)
+			s_bfree(newptr, (cp + size) - newptr);
 		return;
 	}
 

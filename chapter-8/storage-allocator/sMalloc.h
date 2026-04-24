@@ -1,5 +1,5 @@
 #include <stddef.h>
-typedef long Align;
+typedef unsigned long Align;
 
 union header {
 	struct {
